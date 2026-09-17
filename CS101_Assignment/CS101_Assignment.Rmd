@@ -1,0 +1,12 @@
+---
+title: "CS101_Assignment"
+author: "Catherine Cabalfin"
+date: "2026-09-17"
+output: html_document
+---
+
+Assignment
+
+1. git add is the one who moves your file to staging area. When you say "git add report.md" it will move the report.md from directory to staging area. While git commit moves the file from staging area into the local repository. It also needs message— let's say "git add -m "assignment", the file will move to local repository along with this commit.
+
+2. Deleting a file on GitHub will not automatically delete the file from your local computer. I still did not finished the datacamp assignment about git, so when I did the searching(google ai), it says that you need a command "git pull" to update your local repository and reflect the deletion from your github.
