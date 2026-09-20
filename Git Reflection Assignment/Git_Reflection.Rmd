@@ -1,0 +1,22 @@
+---
+title: "GIT REFLECTION"
+author: "Catherine Cabalfin"
+output: html_document
+date: "2026-09-20"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+
+
+**Git_Reflection**
+
+  Git helps developers manage changes by tracking every modification to a codebase over time, allowing teams to isolate work on separate branches and revert to previous versions whenever errors occur. This process functions as a continuous cycle of modifying code, staging changes (git add), saving snapshots (git commit), and synchronizing updates (git push / git pull) because software development is inherently iterative. Within this cycle, writing clear and meaningful commit messages is critical, as they document the rationale behind each update, making code reviews, debugging, and historical tracking significantly easier for the team. 
+Conversely, failing to regularly synchronize local repositories with the remote server creates major issues, including severe merge conflicts, duplicated developer effort, and broken features resulting from working on outdated code. By leveraging commands like git branch, git pull, and git merge, developers can collaborate smoothly on parallel features and integrate their work in a controlled manner that reduces conflicts and keeps the project stable.
+
+
+
