@@ -1,0 +1,164 @@
+---
+title: 'Lab Activity: Data Structures — Vectors and Lists in R'
+author: "Catherine Cabalfin"
+date: "2026-10-14"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Part A — Creating Vectors: c(), seq(), rep()
+
+```{r}
+scores <- c(88, 92, 79, 95, 84)
+subjects <- c("Math", "Science", "English", "History", "PE")
+scores[1:5]
+subjects[1:5]
+
+odds <- seq(1, 19, by = 2)
+odds
+seq(0,1, length = 5)
+
+rep("A", 4)
+rep(c("A", "B"), each = 2)
+rep(c("A", "B"), times = 2)
+```
+
+1.  age <- c(15, 28, 32, 36, 27, 18, 52, 39, 42, 29, 35, 31, 27, 22, 37, 34, 19, 20, 57, 49, 50, 37, 46, 25, 17, 12, 42, 53, 41, 51, 35, 24, 33, 8)
+
+How many data points?
+Answer: 34
+
+Find the reciprocal of age?
+
+Answer: 1/age
+
+Assign also new_age <- c(age, 0, age). What happens to new_age?
+
+Answer: The numbers from age is printed then added with 0 then printed again. [1] 15 28 32 36 27 18 52 39 42 29 35 31 27 22 37 34 19 20 57 49 50 37 46 25 17 12 42 53 41 51 35 24 33
+[34]  8  0 15 28 32 36 27 18 52 39 42 29 35 31 27 22 37 34 19 20 57 49 50 37 46 25 17 12 42 53 41 51 35
+[67] 24 33  8
+
+Find the minimum and the maximum value of age.
+
+Answer: Minimum age is 8, and the maximum age is 57
+
+2. each and times differs from its function. each prints the every single thing inside the vector, while times prints the vector according to how many times on the code.
+
+3. The first arguments jumps by 2 which prints out the odd numbers from 1 to 20, while the second argument prints the numbers between 1 to 20 with values evenly spaced out by 5.
+
+4. vec_num <- seq(20,60)
+[1] 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34
+[16] 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49
+[31] 50 51 52 53 54 55 56 57 58 59 60
+
+Get the mean for vec_num.
+Answer: mean(vec_num)
+[1] 40
+
+Get the sum for vec_num.
+Answer: sum(vec_num) [1] 1640
+
+How many data points are there in vec_num?
+Answer: length(vec_num)  [1] 41
+
+##Part B: Subsetting (Accessing) Vectors
+
+```{r}
+grades <- c(88, 92, 79, 95, 84)
+names(grades) <- c("Math", "Science", "English", "History", "PE")
+
+grades [3]
+
+grades[c(1, 4)]
+
+grades [c("Science", "PE")]
+
+grades[-c(1, 4)]
+
+grades[grades >= 85]
+```
+
+
+5. Use negative indexing when you know an element is at the end of the data, even if you do not know its actual value or exact length. Use logical indexing when you want to filter data based on a specific condition rather than its position.
+
+6. grades[10] returns <NA> instead of throwing an error so the code can keep running uninterrupted.
+
+7. vector1 <- seq(1,100)
+result <-  Filter(function(i) { all(i %% c(3,5,7) != 0) }, seq(100))
+result
+ [1]  1  2  4  8 11 13 16 17 19 22 23 26 29 31
+[15] 32 34 37 38 41 43 44 46 47 52 53 58 59 61
+[29] 62 64 67 68 71 73 74 76 79 82 83 86 88 89
+[43] 92 94 97
+
+
+##Part C: Vector Operations and append()
+
+```{r}
+x <- c(1, 2, 3, 4)
+y <- c(10, 20, 30, 40)
+
+sum <- x + y
+sum
+
+multiply <- x * 2
+multiply
+
+z <- c(1, 2, 3, 4, 5, 6)
+short <- c(1, 0)
+
+add <- z + short
+add
+
+fruits <- c("apple", "banana", "cherry")
+append(fruits, "date")
+append(fruits, "kiwi", after = 1)
+```
+
+8. The short matches the length of the z because it is longer by adding itself to every element on the z
+
+9. Yes, because the length of the longer vector becomes a multiple of shorter vector.
+
+##Part D — Lists: Creating and Subsetting
+
+```{r}
+student <- list(name = "Maria Santos", age = 20, grades = c(88, 92, 79), is_enrolled = TRUE)
+student["grades"]
+class(student[grades])
+
+student[["grades"]]
+class(student[["grades"]])
+
+student$name
+
+student[["grades"]][2]
+```
+
+10. A single bracket extracts a sub-list (preserving the list structure), while a double bracke extracts the actual value inside that element.
+
+11. Vectors hold elements of the same data type, so subsetting with a single bracket returns a smaller vector. Lists, however, can hold complex objects like vectors and data frames. R uses double brackets to extract the actual object stored inside a list element, whereas single brackets just return a smaller list containing that element.
+
+## Part E — Critical Thinking Challenge
+
+```{r}
+inventory <- list(item = c("Notebook", "Pen", "Eraser"), price = c(25.50, 10.00, 5.00), in_stock = c(TRUE, TRUE, FALSE)
+)
+
+inventory$item[inventory$in_stock]
+
+
+inventory$item <- append(inventory$item, "Ruler")
+inventory$item <- append(inventory$price, 15.00)
+inventory$item <- append(inventory$in_stock, TRUE)
+inventory
+```
+
+12. It works because inventory$item and inventory$in_stock are parallel vectors of the same length. R first evaluates the logical condition on `inventory$in_stock` to get a TRUE/FALSE vector. It then uses those boolean values as a mask to filter `inventory$item`, keeping only the items at positions corresponding to TRUE values.
+
+13. Relying on manual sorting risks misaligning the data, which ruins the structure and maps elements to the wrong items. To prevent this, group related vectors into a single data frame or list to keep the data bound together.
+
+##Conclusion
+Vectors hold elements of the same data type, making them ideal for calculations and sequences. In contrast, lists can bundle distinct objects—such as vectors and data frames—with different lengths and types. Use vectors for homogeneous data and lists for diverse or complex data structures.
