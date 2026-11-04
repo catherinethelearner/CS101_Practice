@@ -1,0 +1,99 @@
+---
+title: "R Lab: Basic Operations - sort(), rank(), and order()"
+author: "Catherine Cabalfin"
+date: "2026-11-04"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+##Part A — Creating Data Frames
+
+```{r}
+scores <- c(Ana = 78, Ben = 92, Cid = 85, Dex = 92, Eli = 67, Fay = 88, Gio = 74)
+scores
+
+sort(scores)
+sort(scores, decreasing = TRUE)
+
+sorted_scores <- sort(scores)
+sorted_scores
+
+subjects <- c("Science", "Math", "English", "Filipino", "PE") 
+incomplete <- c(85, NA, 90, 70, NA, 95)
+subjects
+incomplete
+
+sort(subjects)
+
+sort(incomplete)
+
+sort(incomplete, na.last = TRUE)
+
+
+```
+
+#Questions
+
+2. When you sort a named vector, the names stay attached to their values. This matters because if names separate from their scores during sorting, the grades will be assigned to the wrong students. For example, if you sort to find the top performer and the names do not move with the values, the highest score would be mistakenly awarded to whichever student happened to be in that position originally, giving credit to the wrong person.
+
+3. The default behavior of sort() removes NA values silently. This is dangerous because it hides missing data. If you try to report the lowest score without checking for NA values first, you might report a valid number as the lowest score while ignoring the fact that some students have incomplete or missing grades that need attention.
+
+4. sort(scores) returns the actual values sorted in order, whereas order(scores) returns the index positions (the row or item numbers) of the elements in their sorted sequence.
+
+```{r}
+order(scores)
+sort(scores)
+```
+
+```{r}
+scores[order(scores)]
+```
+
+4.2. Yes, scores[order(scores)] produces the exact same values as sort(scores). order(scores) gives the position of each element from smallest to largest. Passing those position numbers back into scores[] rearranges the original vector in that exact sequence.
+
+
+5.
+
+```{r}
+students <- data.frame(name = c("Ana", "Ben", "Cid", "Dex", "Eli", "Fay", "Gio"), score = c(78, 92, 85, 92, 67, 88, 74), section = c("A", "B", "A", "B", "A", "B", "A"))
+students
+
+students[order(students$score), ]
+
+students[order(students$score, decreasing = TRUE), ]
+```
+
+6. order(scores) returns a vector of index numbers representing the positions of elements from lowest value to highest value. On its own, raw output like 5 7 1 3 6 2 4 is not useful because it only tells you where items were located originally. It only becomes useful when you feed those numbers back as index positions to reorder a vector or data frame.
+
+7. sort() works on single vectors and cannot rearrange an entire multi-column table as one unit. If you try to sort individual columns separately using sort(), each column will rearrange independently, breaking the connection between names, scores, and sections. order() is the correct tool for data frames because it generates row indices based on one column and applies that identical row order across all columns, keeping related data lined up properly.
+
+8. Both Ben and Dex received a rank of 6.5. By default, R uses the "average" method to handle ties. Since Ben and Dex tied for the 6th and 7th position in ascending order
+
+```{r}
+# Side by side comparison
+cbind(scores = scores, rank = rank(scores)) 
+
+
+```
+
+```{r}
+sales <- data.frame(
+  employee = c("Rey", "Sam", "Tin", "Uma", "Val"),
+  units_sold = c(120, 145, 145, 98, 130)
+)
+sales
+```
+
+```{r}
+sales$rank <- rank(-sales$units_sold, ties.method = "min")
+sales
+```
+
+```{r}
+sales[order(sales$units_sold, decreasing = TRUE), ]
+```
+
+9. No, order() alone could not solve the whole problem. order() tells you the sequence to arrange rows so they display from highest to lowest, but it does not assign a numerical rank value to each individual item. Furthermore, order() cannot handle tied values by giving them identical standing (such as assigning rank 1 to both Sam and Tin). rank() is needed to calculate numerical standings and properly handle ties.
