@@ -1,0 +1,92 @@
+---
+title: 'R Lab: Basic Operations of R Programming'
+author: "Catherine Cabalfin"
+date: "2026-11-04"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+##Part A — Creating Data Frames
+
+
+#Question 1
+```{r}
+shoesize <- data.frame(Gender = c("M", "F", "M", "M", "F", "F", "M", "F", "M", "F"), ShoeSize = c(10.5, 7.0, 11.0, 9.5, 6.5, 8.0, 12.0, 7.5, 10.0, 6.0), Height = c(175, 160, 180, 172, 158, 165, 185, 162, 178, 155))
+
+write.csv(shoesize, "shoesize.csv", row.names = FALSE)
+shoes <- read.csv("shoesize.csv")
+tail(shoes, 5)
+
+```
+
+```{r}
+str(shoes)
+
+dim(shoes)
+nrow(shoes)
+ncol(shoes)
+
+summary(shoes)
+```
+str() gives the internal structure of the data frame (data types like numeric or character, dimension counts, and preview values), while summary() gives a statistical overview (minimum, maximum, mean, median, and quartiles for numeric variables).
+
+```{r}
+males <- subset(shoes, Gender == "M")
+males
+
+females <- subset(shoes, Gender == "F")
+females
+```
+
+```{r}
+mean_shoe <- mean(shoes$ShoeSize)
+mean_height <- mean(shoes$Height)
+
+mean_shoe
+mean_height
+```
+
+Yes, there is a positive relationship between shoe size and height. Generally, taller individuals tend to have larger feet to support their body weight and frame.
+
+#Question 2
+
+```{r}
+shoes$Gender <- factor(shoes$Gender, levels = c("F", "M"), labels = c("Female", "Male"))
+str(shoes$Gender)
+shoes$Gender
+```
+
+#Question 3
+This design choice ensures that file paths remain relative to the .Rmd file itself. When you share the file with another person, R Markdown will always look for data files in the same folder as the script, preventing "file not found" errors regardless of where the other user stores their project folder.
+
+#Question 4
+
+```{r}
+str(shoes)
+```
+If R imports a numeric column as character text (for example, due to a stray letter or typo), mathematical functions like mean(), sum(), or cor() will produce errors or return NA. R cannot perform arithmetic operations directly on text strings.
+
+#Question 5
+head() only displays the first 6 rows, so it cannot spot issues that appear lower down or at the end of a file. Checking tail() helps you detect missing trailing data, corrupt rows, extra header footer lines, or unexpected missing values (NA) near the end of the file.
+
+#Question 6
+```{r}
+cor(shoes$ShoeSize, shoes$Height)
+
+subset(shoes, ShoeSize >= 11)
+```
+
+#Question 7
+
+Males in this dataset have both a higher average height (178 cm vs. 160 cm) and a larger average shoe size (10.6 vs. 7.0) compared to females. Within each gender group, higher shoe sizes still match taller heights, but gender acts as an important confounding factor. Because men are generally taller and have larger shoe sizes overall, gender itself explains a significant portion of the difference between groups and must be accounted for separately.
+```{r}
+mean(females$ShoeSize)
+mean(females$Height)
+
+mean(males$ShoeSize)
+mean(males$Height)
+```
+
