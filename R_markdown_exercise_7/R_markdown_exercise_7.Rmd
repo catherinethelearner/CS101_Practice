@@ -1,0 +1,114 @@
+---
+title: "Data Structures - Data Frames"
+author: "Catherine Cabalfin"
+date: "2026-11-08"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+##Part A — Creating Data Frames
+
+```{r}
+Respondent <- 1:20
+Sex <- c(1, 2, 1, 2, 1, 2, 1, 1, 2, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2)
+FathersOccupation <- c(1, 2, 3, 1, 1, 2, 3, 1, 2, 3, 1, 2, 1, 3, 2, 1, 3, 2, 1, 2)
+PersonsAtHome <- c(5, 6, 4, 7, 5, 8, 4, 6, 5, 7, 6, 4, 5, 9, 6, 5, 7, 4, 6, 5)
+SiblingsAtSchool <- c(2, 3, 1, 5, 2, 6, 1, 4, 3, 5, 3, 2, 3, 7, 4, 2, 5, 1, 3, 2)
+TypesOfHouses <- c(1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2)
+```
+
+```{r}
+length(Respondent)
+length(Sex)
+length(FathersOccupation)
+length(PersonsAtHome)
+length(SiblingsAtSchool)
+length(TypesOfHouses)
+```
+
+```{r}
+survey <- data.frame(
+  Respondent = Respondent,
+  Sex = Sex,
+  FathersOccupation = FathersOccupation,
+  PersonsAtHome = PersonsAtHome,
+  SiblingsAtSchool = SiblingsAtSchool,
+  TypesOfHouses = TypesOfHouses
+)
+
+print(survey)
+```
+
+#A
+```{r}
+str(survey)
+
+summary(survey)
+```
+
+#B
+```{r}
+dim(survey)
+nrow(survey)
+ncol(survey)
+```
+
+#C
+```{r}
+survey$Sex <- factor(survey$Sex, levels = c(1, 2), labels = c("Male", "Female"))
+survey$FathersOccupation <- factor(survey$FathersOccupation, levels = c(1, 2, 3), labels = c("Farmer", "Driver", "Others"))
+survey$TypesOfHouses <- factor(survey$TypesOfHouses, levels = c(1, 2, 3), labels = c("Wood", "Semi-Concrete", "Concrete"))
+
+str(survey)
+```
+
+#D
+```{r}
+colMeans(survey[, c("PersonsAtHome", "SiblingsAtSchool")])
+
+sapply(survey[, c("Respondent", "PersonsAtHome", "SiblingsAtSchool")], mean)
+```
+
+#E
+```{r}
+survey[1:5, ]
+
+head(survey, 5)
+```
+
+#F
+```{r}
+types_houses <- survey$TypesOfHouses
+print(types_houses)
+```
+
+#G
+```{r}
+survey[survey$Sex == "Male" & survey$FathersOccupation == "Farmer", ]
+```
+
+#H
+```{r}
+survey[survey$Sex == "Female" & survey$SiblingsAtSchool >= 5, ]
+```
+
+Question #2
+Checking that all vectors have equal length is necessary because each row in a survey data frame represents a single respondent's complete set of answers. If any column vector has a different length, the rectangular structure breaks down, indicating either missing responses or unmatched rows. R will refuse to form the data frame or misalign individual responses with the wrong respondents.
+
+Question #3
+Sex, FathersOccupation, and TypesOfHouses are nominal categorical variables stored as numeric codes, whereas PersonsAtHome and SiblingsAtSchool are discrete numeric counts. Calculating an average for a nominal category like Sex (e.g., getting a mean of $1.5$) is mathematically meaningless because the numbers $1$ and $2$ are arbitrary labels rather than measurable values.
+
+Question #4
+Someone unfamiliar with the legend could misinterpret numeric code 1 as a ranking, count, or quantity (such as 1 person or 1st rank) rather than knowing it designates "Male". This illustrates the problem of data ambiguity when working with unlabelled coded data, where raw numbers create confusion and risk incorrect analytical conclusions.
+
+Question #5
+Out of 20 respondents, exactly 10 are Male (Sex == 1 or Sex == "Male"). This small sample size of 20 overall significantly reduces confidence when generalizing findings to a larger population because small samples are prone to high sampling variance and selection bias.
+
+Question #6
+R does not automatically infer semantic meaning from values; it reads numeric inputs like 1, 2, and 3 purely as continuous numbers. This highlights the fundamental difference between data storage (how computer memory holds values as numeric data types) and data semantics (what those numbers represent in context). Users must explicitly declare categories as factor types in R.
+
+Question #7
+The mean of PersonsAtHome ($5.6$) is meaningful to report because it represents a quantitative count of household members per respondent. Conversely, the mean of Sex ($1.5$) is meaningless because Sex is a categorical variable whose numeric values are arbitrary identifiers rather than quantities that can be added or averaged.
