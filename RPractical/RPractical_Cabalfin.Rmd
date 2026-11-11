@@ -1,0 +1,148 @@
+---
+title: "R Programming Practical"
+author: "Catherine Cabalfin"
+date: "2026-11-11"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+##A
+1. 
+```{r}
+v<- c(seq(5, 50, by=5))
+v
+
+length(v)
+sum(v)
+mean(v)
+```
+
+2. 
+```{r}
+w <- c(1, 2, 3)
+rep (w, times=4) 
+z<- c(1, 2, 3)
+rep (z, each=4)
+
+```
+
+3.
+```{r}
+A <- 17
+B <- 5
+C <- 2
+D <- 10
+E <- 144
+
+result1 <- A %% B
+result1
+
+result2 <- A/B
+result2
+
+result3 <- D^C
+result3
+
+result4 <- sqrt(E)
+result4
+
+result5 <- round(pi, digits=3)
+result5
+```
+
+4. 
+```{r}
+a <- c(2, 4, 6, 8)
+b <- c(1, 3, 5, 7)
+
+resulta <- a+b
+resulta
+
+resultb <- a*b
+resultb
+
+resultc <- a>b
+resultc
+
+resultd <- sum(a*b)
+resultd
+```
+
+5. 
+```{r}
+paste ("Student-1", "Student-2", "Student-3")
+
+mode(42)
+mode (42L)
+mode("42")
+mode (41i)
+mode (TRUE)
+```
+
+
+##B
+
+1. 
+```{r}
+
+  id <- c(1, 2, 3, 4, 5, 6, 7, 8)
+  name <- c("Alice", "Bruno", "Chen", "Dana", "Elif", "Farid", "Grace", "Hiro")
+  sex <- c("F", "M", "M", "F", "F", "M", "F", "M")
+  section <- c("A", "B", "A", "C", "B", "C", "A", "B")
+  midterm <- c(78, 85, 92, 67, 74, 88, 95, 59)
+  final <- c(82, 79, 96, 71, 80, 91, 93, 65)
+  attendance <- c (95, 88, 100, 72, 90, 85, 98, 60)
+  
+students <- data.frame(id = id, name = name, sex = sex, section=section, midterm =midterm, final=final, attendance=attendance)
+print(students)
+  
+
+```
+
+2. 
+```{r}
+str(students)
+
+dim(students)
+
+names(students)
+
+summary(students)
+
+```
+
+3. 
+```{r}
+colMeans(students[, c("midterm", "final")])
+
+students$average <- (students$midterm + students$final) / 2
+
+students$remarks <- ifelse(students$average >= 70 & students$attendance >=75 , "Passed", "Failed")
+
+students[students$remarks == "Failed", c("name", "average")]
+```
+
+4. 
+```{r}
+id <- c(1, 2, 3, 4, 5, 6, 7, 8)
+name <- c("Alice", "Bruno", "Chen", "Dana", "Elif", "Farid", "Grace", "Hiro")
+```
+
+
+##C
+1. 
+```{r}
+ id <- c(9, 10)
+  name <- c("Ines", "Jamal")
+  sex <- c("F", "M")
+  section <- c("C", "A")
+  midterm <- c(81, 70)
+  final <- c(84, 68)
+  attendance <- c (92, 80)
+  
+ 
+```
+
