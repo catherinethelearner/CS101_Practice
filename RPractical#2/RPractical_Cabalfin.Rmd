@@ -1,0 +1,37 @@
+---
+title: "RPractical#2"
+author: "Catherine Cabalfin"
+date: "2026-11-18"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Part A: Importig and Inspecting CSV
+
+```{r}
+emp_df <- read.csv("employees.csv", stringsAsFactors = FALSE )
+```
+
+```{r}
+str (emp_df)
+head(emp_df, 6)
+summary(emp_df)
+```
+
+```{r}
+nrow(emp_df)
+ncol(emp_df)
+sapply(emp_df, class)
+```
+
+```{r}
+mean(emp_df$salary, na.rm= TRUE)
+max(emp_df%age, na.rm= TRUE)
+table (emp_df$department)
+```
+
+
+
