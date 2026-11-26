@@ -1,0 +1,141 @@
+---
+title: 'R Lab: The apply Family at Glance'
+author: "Catherine Cabalfin"
+date: "2026-11-25"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Part A: Predict the Output
+
+```{r}
+m <- matrix(1:6, nrow = 2)
+```
+
+```{r}
+apply(m, 1, sum)
+```
+
+```{r}
+apply(m, 2, sum)
+```
+
+```{r}
+class(lapply(1:3, function(i) i^2))
+```
+
+```{r}
+sapply(1:3, function(i) i^2)
+```
+
+```{r}
+sapply(c('a', 'bb', 'ccc'), nchar)
+```
+
+```{r}
+mapply(function(x, y) x * y, 1:3, 4:6)
+```
+
+```{r}
+tapply(c(10, 20, 30, 40), c('u', 'v', 'u', 'v'), sum)
+```
+
+##Question 2
+
+```{r}
+scores <- matrix(c(70, 85, 90,
+                   60, 75, 80,
+                   88, 92, 79),
+                 nrow = 3, byrow = TRUE,
+                 dimnames = list(c('Ana', 'Ben', 'Cara'), c('Math', 'Sci', 'Eng')))
+
+temps <- list(Mon = c(30, 32, 31), Tue = c(29, 33), Wed = c(31, 34, 35, 30))
+```
+
+```{r}
+# (a)
+apply(scores, 1, mean)
+
+# (b)
+apply(scores, 2, max)
+
+# (c) 
+apply(scores, 1, function(x) names(x)[which.max(x)])
+```
+
+```{r}
+lapply(temps, mean)
+
+sapply(temps, length)
+
+vapply(temps, range, numeric(2))
+
+```
+
+##Question 3
+
+```{r}
+mapply(function(p, r, n) p * (1 + r)^n,
+       p = c(1000, 2000),
+       r = c(0.05, 0.04),
+       n = c(2, 3))
+
+mapply(function(p, n, r) p * (1 + r)^n,
+       p = c(1000, 2000),
+       n = c(2, 3),
+       MoreArgs = list(r = 0.045))
+```
+
+## Question 4
+
+```{r}
+tapply(iris$Sepal.Length, iris$Species, mean)
+
+table(mtcars$cyl, mtcars$am)
+
+tapply(mtcars$mpg, mtcars$cyl, mean, na.rm = TRUE)
+
+```
+
+##Part B: Debugging
+
+##Question 5
+```{r}
+sapply(list(a = 1:3, b = 4:6), mean)
+```
+
+```{r}
+apply(matrix(1:6, nrow = 3), 1, mean)
+```
+
+```{r}
+apply(matrix(1:6, nrow = 3), 2, mean)
+```
+
+```{r}
+df <- data.frame(n = c(1, 2), s = c('a', 'b'))
+apply(df, 2, class)
+```
+
+```{r}
+sapply(df, class)
+```
+
+##Question 6
+lapply() always returns a list, with one element per input item, no matter what the function returns. sapply() does the same work but then tries to simplify the result: if every result is a single value it gives a vector, and if they all have the same length greater than 1 it gives a matrix. If the results are different lengths, it quietly falls back to a list.
+The catch with sapply() is that its return type can change depending on the data. For example, on an empty input it returns an empty list() rather than an empty vector. That makes it risky inside functions or scripts where later code expects a certain type.
+I would choose vapply() when I want sapply()'s simplified output with a guarantee. You declare the expected result type and length with FUN.VALUE (for example numeric(1)), and if any result doesn't match, R stops with an error instead of silently returning something different. It is the safer choice in production code and inside functions.
+
+
+```{r}
+x <- c(10, 20, 30, 40)
+g <- c('u', 'v', 'u', 'v')
+
+tapply(x, g, mean)
+```
+
